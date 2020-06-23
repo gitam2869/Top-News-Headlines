@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Top News Headlines</string>
+
+    <string name="source"><u>Source</u></string>
+
+    <string name="appnamebold"><b>Top News Headlines</b></string>
+</resources>
