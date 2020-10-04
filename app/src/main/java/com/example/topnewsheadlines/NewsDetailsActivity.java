@@ -1,7 +1,5 @@
 package com.example.topnewsheadlines;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -12,27 +10,25 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-public class NewsDetailsActivity extends AppCompatActivity
-{
+public class NewsDetailsActivity extends AppCompatActivity {
+    public String imageLink;
+    public String headline;
+    public String description;
+    public String publishedat;
+    public String source;
     private ImageView imageViewImage;
     private TextView textViewHeadline;
     private TextView textViewDescription;
     private TextView textViewPublishedAt;
     private TextView textViewSource;
 
-    public String imageLink;
-    public String headline;
-    public String description;
-    public String publishedat;
-    public String source;
-
-
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_news_details);
 
@@ -51,11 +47,9 @@ public class NewsDetailsActivity extends AppCompatActivity
         textViewPublishedAt = findViewById(R.id.idTextViewPublishedAtNewsDetailsActivity);
         textViewSource = findViewById(R.id.idTextViewSourceNewsDetailsActivity);
 
-        textViewSource.setOnClickListener(new View.OnClickListener()
-        {
+        textViewSource.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.textview_animation);
                 animation.reset();
 
@@ -67,12 +61,9 @@ public class NewsDetailsActivity extends AppCompatActivity
                 intent.addCategory(Intent.CATEGORY_BROWSABLE);
                 intent.setData(Uri.parse(source));
 
-                if(intent.resolveActivity(getPackageManager()) != null)
-                {
+                if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
-                }
-                else
-                {
+                } else {
                     Toast.makeText(getApplicationContext(), "No Browser Available", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -80,25 +71,21 @@ public class NewsDetailsActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onStart()
-    {
+    protected void onStart() {
         super.onStart();
 
         textViewHeadline.setText(headline);
         textViewDescription.setText(description);
         textViewPublishedAt.setText(publishedat);
 
-        Picasso.get().load(imageLink).into(imageViewImage, new Callback()
-        {
+        Picasso.get().load(imageLink).into(imageViewImage, new Callback() {
             @Override
-            public void onSuccess()
-            {
+            public void onSuccess() {
 
             }
 
             @Override
-            public void onError(Exception e)
-            {
+            public void onError(Exception e) {
 
             }
         });

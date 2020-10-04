@@ -1,7 +1,6 @@
 package com.example.topnewsheadlines;
 
-public class NewsInfo
-{
+public class NewsInfo {
     public String image;
     public String headline;
     public String description;

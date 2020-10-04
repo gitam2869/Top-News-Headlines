@@ -15,7 +15,9 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
+            shrinkResources true
+            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
@@ -39,6 +41,4 @@ dependencies {
 //    for showing images
 //    implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'com.squareup.picasso:picasso:2.71828'
-
-
 }

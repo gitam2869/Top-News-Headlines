@@ -9,37 +9,30 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.provider.Settings;
 
-public class NetworkConfiguration
-{
+public class NetworkConfiguration {
     private static Context context;
 
-    NetworkConfiguration(Context context)
-    {
+    NetworkConfiguration(Context context) {
         this.context = context;
     }
 
-    public boolean isConnected()
-    {
+    public boolean isConnected() {
         boolean connected = false;
 
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        if(connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
-                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED)
-        {
+        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED ||
+                connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI).getState() == NetworkInfo.State.CONNECTED) {
             //we are connected to a network
             connected = true;
-        }
-        else
-        {
+        } else {
             connected = false;
         }
 
         return connected;
     }
 
-    public void alertMessage(final String s)
-    {
+    public void alertMessage(final String s) {
 
         // Create the object of
         // AlertDialog Builder class
@@ -73,8 +66,7 @@ public class NetworkConfiguration
 
                             @Override
                             public void onClick(DialogInterface dialog,
-                                                int which)
-                            {
+                                                int which) {
 
                                 // When the user click yes button
                                 // then app will close
@@ -89,9 +81,7 @@ public class NetworkConfiguration
 //                                    Intent intent = new Intent(Intent.ACTION_MAIN);
 //                                    intent.addCategory(WifiNetworkSpecifier.CONTENTS_FILE_DESCRIPTOR);
 //                                    context.startActivity(intent);
-                                }
-                                catch (ActivityNotFoundException e)
-                                {
+                                } catch (ActivityNotFoundException e) {
                                     e.printStackTrace();
                                 }
 

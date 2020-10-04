@@ -16,77 +16,64 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>
-{
+public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder> {
 
     private ArrayList<NewsInfo> newsInfoArrayList;
+    private OnItemClickListener mListener;
 
-    public NewsAdapter(ArrayList<NewsInfo> newsInfoArrayList)
-    {
+    public NewsAdapter(ArrayList<NewsInfo> newsInfoArrayList) {
         this.newsInfoArrayList = newsInfoArrayList;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
-    {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater layoutInflater = LayoutInflater.from(parent.getContext());
-        View view = layoutInflater.inflate(R.layout.all_news_list, parent,false);
+        View view = layoutInflater.inflate(R.layout.all_news_list, parent, false);
         return new ViewHolder(view, mListener);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, int position)
-    {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         NewsInfo newsInfo = newsInfoArrayList.get(position);
 
         holder.textViewHeadline.setText(newsInfo.getHeadline());
         holder.textViewPublishedAt.setText(newsInfo.getPublishedAt());
 
-        Picasso.get().load(newsInfo.getImage()).into(holder.imageViewNewsImage, new Callback()
-        {
+        Picasso.get().load(newsInfo.getImage()).into(holder.imageViewNewsImage, new Callback() {
             @Override
-            public void onSuccess()
-            {
+            public void onSuccess() {
                 holder.progressBar.setVisibility(View.GONE);
             }
 
             @Override
-            public void onError(Exception e)
-            {
+            public void onError(Exception e) {
 
             }
         });
     }
 
-    @Override
-    public int getItemCount()
-    {
-        return newsInfoArrayList.size();
-    }
-
 
     //create variable
 
-    private OnItemClickListener mListener;
+    @Override
+    public int getItemCount() {
+        return newsInfoArrayList.size();
+    }
 
     //interface
 
-    public interface OnItemClickListener
-    {
-        void onItemClick(int position);
-        void onItemClick1(int position);
-    }
-
-    public void setOnItemClickListener(OnItemClickListener listener)
-    {
+    public void setOnItemClickListener(OnItemClickListener listener) {
         mListener = listener;
     }
 
+    public interface OnItemClickListener {
+        void onItemClick(int position);
 
+        void onItemClick1(int position);
+    }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder
-    {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         MaterialCardView materialCardAllNews;
         ImageView imageViewNewsImage;
         TextView textViewHeadline;
@@ -95,8 +82,7 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>
 
         ProgressBar progressBar;
 
-        public ViewHolder(@NonNull View itemView,  final OnItemClickListener listener)
-        {
+        public ViewHolder(@NonNull View itemView, final OnItemClickListener listener) {
             super(itemView);
 
             materialCardAllNews = itemView.findViewById(R.id.idCardViewAllNews);
@@ -107,34 +93,26 @@ public class NewsAdapter extends RecyclerView.Adapter<NewsAdapter.ViewHolder>
 
             progressBar = itemView.findViewById(R.id.idProgressbarImageLoadingAllNews);
 
-            materialCardAllNews.setOnClickListener(new View.OnClickListener()
-            {
+            materialCardAllNews.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v)
-                {
-                    if(listener != null)
-                    {
+                public void onClick(View v) {
+                    if (listener != null) {
                         int position = getAdapterPosition();
 
-                        if(position != RecyclerView.NO_POSITION)
-                        {
+                        if (position != RecyclerView.NO_POSITION) {
                             listener.onItemClick(position);
                         }
                     }
                 }
             });
 
-            textViewSource.setOnClickListener(new View.OnClickListener()
-            {
+            textViewSource.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(View v)
-                {
-                    if(listener != null)
-                    {
+                public void onClick(View v) {
+                    if (listener != null) {
                         int position = getAdapterPosition();
 
-                        if(position != RecyclerView.NO_POSITION)
-                        {
+                        if (position != RecyclerView.NO_POSITION) {
                             listener.onItemClick1(position);
                         }
                     }

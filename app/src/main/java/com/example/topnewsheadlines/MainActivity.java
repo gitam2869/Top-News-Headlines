@@ -1,10 +1,5 @@
 package com.example.topnewsheadlines;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,12 +13,14 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.android.volley.Request;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -31,32 +28,25 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Map;
 
-public class MainActivity extends AppCompatActivity
-{
-
-    //adapter
-    private NewsAdapter adapter;
+public class MainActivity extends AppCompatActivity {
 
     //a list to store all the prs users name
     public ArrayList<NewsInfo> newsInfoArrayList;
-
     //the recyclerview
     RecyclerView recyclerView;
-
+    //adapter
+    private NewsAdapter adapter;
     private ProgressBar progressBar;
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         NetworkConfiguration networkConfiguration = new NetworkConfiguration(this);
 
-        if(!networkConfiguration.isConnected())
-        {
+        if (!networkConfiguration.isConnected()) {
             setContentView(R.layout.main_no_internet);
             getSupportActionBar().hide();
             alertMessage();
@@ -80,11 +70,9 @@ public class MainActivity extends AppCompatActivity
         adapter = new NewsAdapter(newsInfoArrayList);
         recyclerView.setAdapter(adapter);
 
-        adapter.setOnItemClickListener(new NewsAdapter.OnItemClickListener()
-        {
+        adapter.setOnItemClickListener(new NewsAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position)
-            {
+            public void onItemClick(int position) {
                 NewsInfo newsInfo = newsInfoArrayList.get(position);
 
                 Intent intent = new Intent(getApplicationContext(), NewsDetailsActivity.class);
@@ -97,8 +85,7 @@ public class MainActivity extends AppCompatActivity
             }
 
             @Override
-            public void onItemClick1(int position)
-            {
+            public void onItemClick1(int position) {
                 TextView textView = recyclerView.findViewHolderForAdapterPosition(position).itemView.findViewById(R.id.idTextViewSourceAllNews);
 
                 Animation animation = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.textview_animation);
@@ -114,12 +101,9 @@ public class MainActivity extends AppCompatActivity
                 intent.addCategory(Intent.CATEGORY_BROWSABLE);
                 intent.setData(Uri.parse(newsInfo.getSource()));
 
-                if(intent.resolveActivity(getPackageManager()) != null)
-                {
+                if (intent.resolveActivity(getPackageManager()) != null) {
                     startActivity(intent);
-                }
-                else
-                {
+                } else {
                     Toast.makeText(getApplicationContext(), "No Browser Available", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -128,8 +112,7 @@ public class MainActivity extends AppCompatActivity
         getNews();
     }
 
-    private void getNews()
-    {
+    private void getNews() {
         Log.d("TAG", "getNews: 111");
         String requestUrl = "https://newsapi.org/v2/top-headlines?country=in&apiKey=d3c2786fbac64fb0aa0e4b9ef149f1d6";
 
@@ -137,31 +120,23 @@ public class MainActivity extends AppCompatActivity
                 Request.Method.GET,
                 requestUrl,
                 null,
-                new Response.Listener<JSONObject>()
-                {
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONObject response)
-                    {
-                        try
-                        {
+                    public void onResponse(JSONObject response) {
+                        try {
                             JSONArray jsonArray = response.getJSONArray("articles");
 
-                            for(int j = 0; j < jsonArray.length(); j++)
-                            {
+                            for (int j = 0; j < jsonArray.length(); j++) {
                                 JSONObject jsonObject = jsonArray.getJSONObject(j);
 
 
                                 String temp = jsonObject.getString("publishedAt");
-                                String [] split = temp.split("T");
+                                String[] split = temp.split("T");
                                 String str = null;
-                                for (int i = 0; i < split.length; i++)
-                                {
-                                    if (i == 0)
-                                    {
+                                for (int i = 0; i < split.length; i++) {
+                                    if (i == 0) {
                                         str = split[0];
-                                    }
-                                    else
-                                    {
+                                    } else {
                                         str = str + "+" + split[i];
                                     }
 
@@ -170,7 +145,7 @@ public class MainActivity extends AppCompatActivity
                                 String publishedAt = split[0] + ", " + split[1];
 
 
-                                Log.d("TAG", "onResponse: "+ Arrays.toString(split));
+                                Log.d("TAG", "onResponse: " + Arrays.toString(split));
 
 
                                 newsInfoArrayList.add(new NewsInfo(
@@ -187,18 +162,16 @@ public class MainActivity extends AppCompatActivity
 
                             progressBar.setVisibility(View.GONE);
 
-                        }
-                        catch (JSONException e)
-                        {
+                            recyclerView.getLayoutManager().scrollToPosition(5);
+
+                        } catch (JSONException e) {
                             e.printStackTrace();
                         }
                     }
                 },
-                new Response.ErrorListener()
-                {
+                new Response.ErrorListener() {
                     @Override
-                    public void onErrorResponse(VolleyError error)
-                    {
+                    public void onErrorResponse(VolleyError error) {
 
                     }
                 }
@@ -207,8 +180,7 @@ public class MainActivity extends AppCompatActivity
         RequestHandler.getInstance(this).addToRequestQueue(jsonObjectRequest);
     }
 
-    public void alertMessage()
-    {
+    public void alertMessage() {
 
         // Create the object of
         // AlertDialog Builder class
@@ -242,8 +214,7 @@ public class MainActivity extends AppCompatActivity
 
                             @Override
                             public void onClick(DialogInterface dialog,
-                                                int which)
-                            {
+                                                int which) {
 
                                 // When the user click yes button
                                 // then app will close
